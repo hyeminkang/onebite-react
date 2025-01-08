@@ -77,3 +77,5 @@ state의 값이 off > on 으로 변화되면 리액트가 상태변화를 감지
 리렌더(Re-Render) / 리렌더링(Re-Rendering) : 컴포넌트가 다시 렌더링 되는 것 
 하나의 컴포넌트에 여러개의 state를 만들수있음
 isLightOn / isBroken / isDirty
+
+state를 props를 이용해서 자식컴포넌트에 전달하기
