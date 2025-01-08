@@ -1,6 +1,11 @@
 import './App.css'
 import { useState } from "react"; // 리액트가 제공하는 내장함수
 
+
+import Bulb from "./components/Bulb";
+import Counter from "./components/Counter";
+
+
 function App() {
 
   /*const [state, setState] = useState(0);*/ // useState 함수를 호출해서 반환값을 state라는 변수에 담음 
@@ -9,23 +14,10 @@ function App() {
   // 그래서 보통은 state라는 변수로 함수를 받아오기보단 비구조화할당을 이용하여 [state, setState] 저장
   // state > 값이 들어올거고, setState에는 값을 변경시키는 함수가 들어옴
 
-  const [count, setCount] = useState(0);
-  const [light, setLight] = useState("OFF");
   return (
     <>
-      <div>
-        <h1>{light}</h1> 
-        <button onClick={() =>{
-          setLight(light === 'ON' ? "OFF" : "ON")
-        }}>
-          { light === "ON" ? "끄기" : "켜기"}</button>
-      </div>
-      <div>
-        <h1>{count}</h1>
-        <button onClick={() => {
-        setCount(count + 1);
-        }}>+</button>
-      </div>
+        <Bulb />
+        <Counter />
     </>
   )
 }
@@ -44,8 +36,17 @@ function App() {
 
 // <button>전구 끄기/ 켜기</button> 삼항연산자로 바꿔주기 >> { light === "ON" ? "끄기" : "켜기"}
 
+// App 내 <Bulb /> 쓰는건 자식컴포넌트로 배치
+
 // 왜 리액트에서는 굳이 state 를 만들어서 써야할까?
 // 상태변화가 일어나지않음 (컴포넌트가 리렌더링 되지않음)
 // 리액트의 컴포넌트는 변수가 아니라 state의 값이 변화되어야만 리렌더링됨
 
 export default App
+
+
+// 리렌더링 되는 3가지 상황
+// 1. 자신이 관리하는 state값이 변경될때 리렌더링됨
+// 2. 자신이 제공받는 props의 값이 변경될때
+// 3. 부모컴포넌트가 리렌더링 되면 자식 컴포넌트도 리렌더링됨
+// Bulb 컴포넌트는 1과 3에 해당됨
