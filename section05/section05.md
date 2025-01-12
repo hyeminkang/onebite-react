@@ -79,3 +79,12 @@ state의 값이 off > on 으로 변화되면 리액트가 상태변화를 감지
 isLightOn / isBroken / isDirty
 
 state를 props를 이용해서 자식컴포넌트에 전달하기
+
+
+useRef
+ㄴ 새로운 reference 객체를 생성하는 기능
+const refObject = useRef()
+refObject >> 컴포넌트 내부의 변수로써, 일반적인 값들 저장 가능
+useState와 비슷하지만, useState는 값입 변경되면 컴포넌트를 리렌더링 하는반면에 
+useRef는 어떤 경우에도 리렌더링 시키지않음 (렌더링 시키고싶지않을때 useRef를 생성해서 사용)
+useRef를 사용하면 컴포넌트가 렌더링하는 특정DOM요소에 접근가능함으로, 해당 요소를 조작하는 것도 가능 (focus, 혹은 스타일변경 등)

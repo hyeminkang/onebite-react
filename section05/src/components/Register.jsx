@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
+
 // 간단한 회원가입폼
 // 1. 이름 
 // 2. 생년월일
@@ -6,7 +7,6 @@ import { useState } from 'react';
 // 4. 자기소개 
 
 const Register = () => {
-
   const [input, setInput] = useState({
     name: "",
     birth: "",
@@ -28,9 +28,24 @@ const Register = () => {
     const [bio, setBio] = useState("");
    */
 
+  const countRef = useRef(0);
+  const inputRef = useRef();
+
+  // let count = 0;
+  // ㄴ useRef말고 let count = 0; 으로 가능할 것 같고, 혹시 이 영역이 함수밖에 있다면카운트는 문제없이 됨 그치만 해결방법은 아님
+  // 컴포넌트 외부에 선언하면 register를 한번만 렌더링한다면 문제가없지만, <Register />를  두번불러온다면 치명적 문제 발생  
+  // 두번 렌더링되었는데, 각 컴포넌트내 변화를 감지하는게아님 그냥 변화될때마다 계속 높아져서 문제임 함수가 두번불러왔다 정도로 생각하면될듯 
+  
+  /*
+  const refObj = useRef(0); // 새로운 래퍼런스 오브젝트 생성 
+  console.log("레지스터 렌더링 :") // {current: undefined} 출력
+  */
+
   // 통합 이벤트핸들러 생성
   const onChange = (e) => {
     console.log(e.target.name, e.target.value) // birth 2025-01-08 / 이름에씀녀 name 이정환 등 출력
+    countRef.current++;
+    console.log(countRef.current) // 하단에 onChange 함수가 불러와질때마다 숫자가 계속 증가
     setInput({
       ...input,
       [e.target.name]: e.target.value,
@@ -41,6 +56,13 @@ const Register = () => {
   // 그럼 스프레드 연산자(...input)로 다 나열을 해준 다음에 마지막에 프로퍼티의 키를 명시하는 자리에 대괄호를 열고 이 대괄호 안에는 e.target.value가 프로퍼티의 키로서 설정이 됨
   // e,target,value 에는 이벤트가 발생한 태그의 name속성에 설정된 값이 들어있음
   
+  const onSubmit = () => {
+    if ( input.name === "") {
+      // 이름을 입력하는 DOM요소에 포커스
+      // console.log(inputRef.current)
+      inputRef.current.focus();
+    }
+  }
   
   /*
   간단하게 객체로 스테이트를 바꿔주기 때문에 하단 이벤트 핸들러를 상위처럼 수정함
@@ -104,7 +126,15 @@ const Register = () => {
   return (
     <div>
       <div>
-        <input type="text" name="name" value={input.name} onChange={onChange} placeholder={"이름"} />
+        <button onClick={
+          () => {
+            refObj.current++;
+            console.log(refObj.current);
+          }
+        }>ref + 1</button>
+      </div>
+      <div>
+        <input type="text" ref={inputRef} name="name" value={input.name} onChange={onChange} placeholder={"이름"} />
         {input.name}
       </div>
       
@@ -127,6 +157,8 @@ const Register = () => {
         <textarea value={input.bio} name="bio" onChange={onChange}/>
         {input.bio}
       </div>
+
+      <button onClick={onSubmit}>제출</button>
     </div>
   )
 }
@@ -149,3 +181,11 @@ export default Register; // 내보내줌
 
 //<input type="text" value={input.name} onChange={onChangeName} placeholder={"이름"} /> 여기서
 // <input type="text" name="name" value={input.name} onChange={onChange} placeholder={"이름"} />
+
+
+//<button onClick={ () => { refObj.current++; console.log(refObj.current); } }>ref + 1</button> 이걸로 확인해보면 클릭시에 console.log에서는 변화가 되지만 리렌더링을 유발시키지는 않기때문에 
+// onClick이베트만 계속 실행이되고 그 위에 conosl.log(refObj.current)는 실행이 되지않고 0상태 유지
+
+
+
+// ref={inputRef} input태그가 렌더링 되는 DOM요소가 inputRef 래퍼런스 오브젝트에 저장됨
