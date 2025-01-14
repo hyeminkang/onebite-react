@@ -1,23 +1,44 @@
 import './App.css';
 import Viewer from './components/Viewer';
 import Controller from './components/Controller';
-import { useState, useEffect } from 'react'; 
+import Even from './components/Even';
+import { useState, useEffect, useRef } from 'react'; 
 
 // useEffect를 이용하면 컴포넌트 내부에서 값이 변경되었을 때, (Ex count state) 우리가 원하는 동작을 수행함
 
 function App() {
   const [count, setCount] = useState(0);
   const [input, setInput] = useState("");
+
+  const isMount = useRef(false); // 아직 마운트 되지않았다의 의미로 false
   // return 아래에 input 내로 우리가 입력하는 값들은 해당 스테이트에 저장됨 
   // 콘솔이 안바뀌는거보니 useEffect에서 콜백함수가 실행되고 있지않고있음
   // deps에 count만 들어가있기 때문에 input값이 아무리 바뀌어도 콜백함수는 실행되지않음
   // 의존성 배열에 input추가하면 바뀜 ㅋ
 
-  useEffect(() => {
+  /*useEffect(() => {
     console.log(`count: ${count} / input: ${input}`); 
-   }, [count, input]); // useEffects는 두번째 인수로 전달한 배열의 값이 바뀌게 되면 , 사이드이펙트로써 첫번째 인수로 전달한 콜백함수를 실행시켜줌
-  // 이 배열을 의존성 배열이라고 부름 dependency array>deps 
+   }, [count, input]);
+   */ // useEffects는 두번째 인수로 전달한 배열의 값이 바뀌게 되면 , 사이드이펙트로써 첫번째 인수로 전달한 콜백함수를 실행시켜줌
+  // 이 배열을 의존성 배열이라고 부름 dependency array>deps
   // deps에는 값을 여러개 넣어도됨
+  
+  // 1. 마운트 : 생성
+  useEffect(() => {
+    console.log('mount');
+  }, []) // 최초로 1번만 실행시키고 싶은 부분이 있다면 useEffect 호출하고, [] 빈배열쓰고 쓰면됨
+
+  // 2. 업데이트 : 변화, 리렌더링
+  useEffect(() => {
+    if ( !isMount.current ) {
+      isMount.current = true;
+      return; 
+    } // 이렇게 작성해서 리렌더링 될때마다 하단이 출력되는 것
+    console.log("update")
+  }) // deps생략, 그러면 마운트 될때마다 계속실행됨
+  // 업데이트 될때마다 실행시키고 싶으면, 플래그로써 사용되게끔 하면됨
+
+  // 3. 언마운트 : 죽음
   
   const onClickButton = (value) => {
     setCount(count + value);
@@ -33,6 +54,7 @@ function App() {
       </section>
       <section>
         <Viewer count={count} />
+        {count % 2 === 0 ? <Even /> : null}
       </section>
       <section>
         <Controller onClickButton={ onClickButton } />
