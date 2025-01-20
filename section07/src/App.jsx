@@ -42,6 +42,7 @@ function App() {
   
   const onClickButton = (value) => {
     setCount(count + value);
+    //console.log(count) setCount함수가 비동기로 동작함! 호출만 된거지 실행된건 아님
   }
 
   return (

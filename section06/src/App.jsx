@@ -7,7 +7,7 @@ function App() {
   const [count, setCount] = useState(0);
   const onClickButton = (value) => {
     setCount(count + value);
-  }
+  } // onClickButton이라는 Props라고 생각하기
 
   return (
     <div className="App">
