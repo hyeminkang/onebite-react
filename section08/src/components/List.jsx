@@ -2,7 +2,7 @@ import './List.css';
 import TodoItem from "./TodoItem";
 import { useState } from "react";
 
-const List = ({ todos }) => {
+const List = ({ todos, onUpdate, onDelete  }) => {
   const [search, setSearch] = useState("");
   const onChangeSearch = (e) => {
     setSearch(e.target.value);
@@ -26,7 +26,7 @@ const List = ({ todos }) => {
       <div className="todos_wrapper">
         {filteredTodos.map((todo) => {
           return (
-            <TodoItem key={ todo.id } {...todo} />
+            <TodoItem key={todo.id} {...todo} onUpdate={onUpdate} onDelete={onDelete}/>
           ); // 하나의 콜백함수를 받은 다음에 배열의 모든 요소에 대해서 콜백 함수를 수행한 뒤에 이 콜백함수가 리턴한 반환 값들을 모아서 새로운 배열로 반환하는 그런 메서드
           // 리스트로 어떠한 컴포넌트를 렌더링 할때는 모든 아이템은 컴포넌트에 key라는 프롭을 고유한 값으로 전달해야함
         })}  

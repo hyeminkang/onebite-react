@@ -45,11 +45,39 @@ function App() {
     setTodos([newTodo, ...todos]) // ...todos 스프레드 연산자를 이용해서 기존 배열들을 펼쳐줌 이후에 내가 생성한 데이터추가
   } 
 
+  const onUpdate = (targetId) => {
+
+    // 인수 : todos 배열에서 targetId와 일치하는 id를 갖는 요소의 데이터만 바꾼 새로운 배열 
+    /*setTodos(todos.map((todo) => {
+      if (todo.id === targetId) {
+        return {
+          ...todo,
+          isDone: !todo.isDone
+        }    
+      }
+      return todo
+    }))*/
+    setTodos(todos.map((todo) =>
+      todo.id === targetId
+        ? { ...todo, isDone: !todo.isDone }
+        : todo
+    )
+    );
+  } // 매개변수 targetId로 현재 업데이트하고자 하는 체크박스가 클릭된 toDoItem의 아이디를 받아와서 
+  //함수 내부에서 toDos State의 값들 중 targetId와 일치하는 아이디를 갖는 toDoItem의 isDone 프로퍼티를 변경
+
+  const onDelete = (targetId) => {
+    // 인수 : todos 배열에서 targetId와 일치하는 id를 갖는 요소만 삭제하고 새로운 배열로
+    // 조건을 만족하는 요소만 딱 제외하고 나머지 요소들로 필터링 ToDos의 Filter메서드 사용
+    setTodos(todos.filter((todo) => todo.id !== targetId));
+
+  }
+
   return (
     <div className="App">
         <Header />
       <Editor onCreate={ onCreate } />
-      <List todos={ todos } />
+      <List todos={todos} onUpdate={onUpdate} onDelete={onDelete} />
     </div>
     
   )
