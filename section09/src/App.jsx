@@ -73,7 +73,7 @@ function App() {
     // title 이라는 매개변수로 에디터 컴포넌트에 입력한 값을 가져와 새로 생성될 투두 아이템을 객체형태로 만들고 이제 todos에 넣어줌, todos와 같은 state값은 반드시 setTodost 즉, 상태변화 함수를 이용해서만 상태변화가 가능
     // id의 값을 기록하기 위해 래퍼런스 객체를 하나 만들어줌 useRef
 
-    setTodos([newTodo, ...todos]) // ...todos 스프레드 연산자를 이용해서 기존 배열들을 펼쳐줌 이후에 내가 생성한 데이터추가
+    //setTodos([newTodo, ...todos]) // ...todos 스프레드 연산자를 이용해서 기존 배열들을 펼쳐줌 이후에 내가 생성한 데이터추가
   } 
 
   const onUpdate = (targetId) => {
@@ -93,10 +93,7 @@ function App() {
       return todo
     }))*/
     /*
-    setTodos(todos.map((todo) =>
-      todo.id === targetId
-        ? { ...todo, isDone: !todo.isDone }
-        : todo
+    setTodos(todos.map((todo) => todo.id === targetId ? { ...todo, isDone: !todo.isDone } : todo
       )
     );*/
   } // 매개변수 targetId로 현재 업데이트하고자 하는 체크박스가 클릭된 toDoItem의 아이디를 받아와서 
@@ -115,7 +112,7 @@ function App() {
 
   return (
     <div className="App">
-      <Exam />
+      {/* <Exam /> */}
       <Header />
       <Editor onCreate={ onCreate } />
       <List todos={todos} onUpdate={onUpdate} onDelete={onDelete} />
