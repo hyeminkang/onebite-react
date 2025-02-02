@@ -1,10 +1,10 @@
 import './List.css';
 import TodoItem from "./TodoItem";
 import { useState, useMemo, useContext } from "react";
-import { TodoContext } from '../App';
+import { TodoStateContext } from '../App';
 
 const List = () => {
-  const {todos} = useContext(TodoContext);
+  const todos = useContext(TodoStateContext); // 이제 객체구조분해할당이 아니기때문에 {} 제거
   const [search, setSearch] = useState("");
   const onChangeSearch = (e) => {
     setSearch(e.target.value);

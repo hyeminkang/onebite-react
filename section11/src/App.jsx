@@ -4,7 +4,7 @@ import Editor from "./components/Editor"
 import List from "./components/List"
 import Exam from "./components/Exam"
 
-import { useState, useRef, useReducer, useCallback, createContext } from "react";
+import { useState, useRef, useReducer, useCallback, createContext, useMemo } from "react";
 
 const mokData = [
   {
@@ -46,8 +46,11 @@ function reducer(state, action) {
   }
 }
 
-export const TodoContext = createContext();
-console.log(TodoContext) // 엄청나게 많은 프로퍼티가 나옴 provider만 제대로 알면됨!
+/*export const TodoContext = createContext();*/
+export const TodoStateContext = createContext();// 변화할 값을 담을 context
+export const TodoDispatchContext = createContext(); // 변화하지않을 값을 담을 context
+  
+//console.log(TodoContext) // 엄청나게 많은 프로퍼티가 나옴 provider만 제대로 알면됨!
 
 // provider가 공급할 데이터를 설정하거나 이 컨텍스트의 데이터를 공급받을 컴포넌트들을 설정하기 위해서 사용하는 프로퍼티
 // 사실은 컴포넌트임
@@ -84,18 +87,22 @@ function App() {
     })
   }, [])
 
+  const memoizedDispatch = useMemo(() => {
+    return {
+      onCreate, onUpdate, onDelete
+    }
+  }, [])
+
   return (
     <div className="App">
       {/* <Exam /> */}
       <Header />
-      <TodoContext.Provider value={
-        {
-          todos, onUpdate, onDelete, onCreate
-        }
-      } >
-        <Editor />
-        <List />
-      </TodoContext.Provider>
+      <TodoStateContext.Provider value={todos}>
+        <TodoDispatchContext.Provider value={memoizedDispatch}>
+            <Editor />
+            <List />
+          </TodoDispatchContext.Provider>
+      </TodoStateContext.Provider>
     </div>
     
   )

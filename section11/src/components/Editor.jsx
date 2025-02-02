@@ -1,6 +1,6 @@
 import './Editor.css';
 import { useState, useRef, useContext } from 'react';
-import { TodoContext } from '../App';
+import { TodoDispatchContext } from '../App';
 
 const Editor = ( ) => {
 
@@ -8,7 +8,7 @@ const Editor = ( ) => {
   // data라는 변수에는 TodoContext가 제공한 어떠한 값들이 들어있을것임
   /* console.log(data) */ // {todos: Array(3), onUpdate: ƒ, onDelete: ƒ, onCreate: ƒ}  출력
 
-  const { onCreate } = useContext(TodoContext); // conText를 통해서 데이터를 다이렉트로 받는걸로 수정
+  const { onCreate } = useContext(TodoDispatchContext); // conText를 통해서 데이터를 다이렉트로 받는걸로 수정
   
   const [content, setContent] = useState("");
   const contentRef = useRef();
