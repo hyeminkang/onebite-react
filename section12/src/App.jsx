@@ -1,11 +1,12 @@
-import './App.css'
-import { Route, Routes, Link, useNavigate } from 'react-router-dom'
-import Home from './pages/Home'
-import Diary from './pages/Diary'
-import New from './pages/New'
-import Notfound from './pages/Notfound'
+import './App.css';
+import { Route, Routes, Link, useNavigate } from 'react-router-dom';
+import Home from './pages/Home';
+import Diary from './pages/Diary';
+import New from './pages/New';
+import Notfound from './pages/Notfound';
 
-import Button from './components/Button'
+import Button from './components/Button';
+import Header from './components/Header';
 
 import { getEmotionImage } from './util/get-emtion-image'
 
@@ -20,30 +21,22 @@ function App() {
   }
   return (
     <>
-      <Button />
-      {/* <div>
-        <img src={'/emotion1.png'} alt="" />
-        <img src={'/emotion2.png'} alt="" />
-        <img src={'/emotion3.png'} alt="" />
-        <img src={'/emotion4.png'} alt="" />
-        <img src={'/emotion5.png'} alt="" />
-      </div> */}
       
-      <div>
-        <img src={getEmotionImage(1)} alt="" />
-        <img src={getEmotionImage(2)} alt="" />
-        <img src={getEmotionImage(3)} alt="" />
-        <img src={getEmotionImage(4)} alt="" />
-        <img src={getEmotionImage(5)} alt="" />
-      </div>
+      <Header title={"Header"}
+        leftChild={<Button text={ " LEFT "} />}
+        rightChild={<Button text={ "RIGHT"} />} />
+      <Button text={"123"} onClick={() => {
+        console.log('123 버튼 클릭')
+      }} type={"DEFAULT"} />
+      
+      <Button text={"123"} onClick={() => {
+        console.log('123 버튼 클릭')
+      }} type={"POSITIVE"} />
+      
+      <Button text={"123"} onClick={() => {
+        console.log('123 버튼 클릭')
+      }} type={"NEGATIVE"}  />
 
-
-      <div>
-        <Link to={"/"}>Home</Link>
-        <Link to={"/new"}>New</Link>
-        <Link to={"/diary"}>Diary</Link>
-      </div>
-      <button onClick={ onClickButton } >New 페이지로 이동</button>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/new" element={<New />} />
@@ -82,4 +75,6 @@ function App() {
 // 이미지들은 그냥 새로고침할때마다 매번 새롭게 불러옴 
 // 네트워크 탭 들어가면 확인가능
 
+
+// button Type에서 default는 제거해도 무방 (그냥 button의 스타일로 나옴 button_undefined )
 export default App
