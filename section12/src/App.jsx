@@ -15,15 +15,21 @@ import { useReducer, useRef, createContext } from 'react';
 const mokData = [
   {
     id: 1,
-    createdDate: new Date().getTime(),
+    createdDate: new Date("2025-02-12").getTime(),
     emotionId: 1,
     content :"1번 일기 내용"
   },
   {
     id: 2,
-    createdDate: new Date().getTime(),
+    createdDate: new Date("2025-02-11").getTime(),
     emotionId: 2,
     content :"2번 일기 내용"
+  },
+  {
+    id: 3,
+    createdDate: new Date("2025-01-30").getTime(),
+    emotionId: 3,
+    content :"3번 일기 내용"
   },
 ]
 
@@ -40,8 +46,8 @@ function reducer(state, action) {
   }
 }
 
-const DiaryStateContext = createContext();
-const DiaryDispatchContext = createContext();
+export const DiaryStateContext = createContext(); // 홈 컴포넌트에서 DiaryStateContext 를 통해서 data 스테이트를 공급받아야함
+export const DiaryDispatchContext = createContext();
 
 function App() {
   const [data, dispatch] = useReducer(reducer, mokData); // mokData 초기값가져온것
@@ -78,18 +84,6 @@ function App() {
 
   return (
     <>
-      <button onClick={() => {
-        onCreate(new Date().getTime(), 1, "hello")
-      }}>일기추가테스트</button>
-
-      <button onClick={() => {
-        onUpdate(1, new Date().getTime(), 3, "수정된 일기입니다")
-      }}>일기수정테스트</button>
-
-      <button onClick={() => {
-        onDelete(1);
-      }}>일기삭제테스트</button>
-
         <DiaryStateContext.Provider value={data}> 
         <DiaryDispatchContext.Provider value={{
             onCreate,onUpdate,onDelete
