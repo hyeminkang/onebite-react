@@ -112,3 +112,11 @@ NEW 페이지
 하단 : edit 컴포넌트 
 반복적으로 등장하는 감정선택 요소 emotionItem 컴포넌트로 만들예정 (map 메서드를 통해서 리스트로 렌더링)
 
+
+editor.jsx
+ㄴ 사용자의 입력을 컴포넌트 위에 있는 input state에 보관
+ㄴ 작성완료를 클릭하면 onSubmitButtonClick 함수가 실행하게됨
+부모 컴포넌트로부터 props로 전달받은 onSubmit()함수를 호출하면서, 인수로는 input state값을 전달해줌
+
+onSubmit함수는 new 컴포넌트에 정의가 되어있는데, 
+useContext를 통해서 app컴포넌트로부터 공급받은 onCreate함수가 호출되면서 일기데이터가 추가됨
