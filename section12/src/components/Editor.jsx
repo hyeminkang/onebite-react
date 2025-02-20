@@ -1,7 +1,7 @@
 import "./Editor.css";
 import EmotionItem from "./EmotionItem";
 import Button from "./Button";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const emotionList = [
@@ -44,7 +44,7 @@ const getStringDate = (targetDate) => {
 }
 // 문자열로 변환된 날짜를 구하는 함수
 
-const Editor = ({ onSubmit }) => {
+const Editor = ({initData, onSubmit }) => {
   
   const [input, setInput] = useState({
     createDate : new Date(),
@@ -54,6 +54,15 @@ const Editor = ({ onSubmit }) => {
   // ㄴ 사용자가 입력한 오늘의 날짜, 오늘의 감정, 오늘의 일기 이런것들을 다 저장 (스테이트를 객체로 저장)
 
   const nav = useNavigate();
+
+  useEffect(() => {
+    if ( initData ) {
+      setInput({
+        ...initData,
+        createDate : new Date(Number(initData.createDate)),
+      })
+    }
+  }, [initData])
 
   const onChangeInput = (e) => {
     //console.log(e.target.name) // 어떤 요소에 입력이 들어온건지 
@@ -86,15 +95,15 @@ const Editor = ({ onSubmit }) => {
       <section className="emotion_section">
         <h4>오늘의 감정</h4>
         <div className="emotion_list_wrapper">
-          {emotionList.map((item) => {
-            return <EmotionItem
+          {emotionList.map((item) => (
+            <EmotionItem
               onClick={() => onChangeInput({
                 target: {
                   name: "emotionId",
                   value: item.emotionId,
                 }
               }) }  key={item.emotionId} {...item} isSelected={item.emotionId === input.emotionId} />
-          })}
+          ))}
         </div>
       </section>
       <section className="content_section">

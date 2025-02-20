@@ -120,3 +120,7 @@ editor.jsx
 
 onSubmit함수는 new 컴포넌트에 정의가 되어있는데, 
 useContext를 통해서 app컴포넌트로부터 공급받은 onCreate함수가 호출되면서 일기데이터가 추가됨
+
+
+edit
+ㄴ 기존일기를 수정하는 페이지
