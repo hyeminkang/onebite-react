@@ -3,51 +3,16 @@ import EmotionItem from "./EmotionItem";
 import Button from "./Button";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { emotionList } from "../util/constants";
+import { getStringDate } from "../util/get-stringed-date";
 
-const emotionList = [
-  {
-    emotionId: 1,
-    emotionName:"완전 좋음"
-  },
-  {
-    emotionId: 2,
-    emotionName:"좋음"
-  },
-  {
-    emotionId: 3,
-    emotionName:"그럭 저럭"
-  },
-  {
-    emotionId: 4,
-    emotionName:"나쁨"
-  },
-  {
-    emotionId: 5,
-    emotionName:"끔찍함"
-  }
-] // 이 변수에 배열로 데이터만 따로 저장해둔 다음에 실제 return문에서는 map 메서드를 이용해서 리스트로 렌더링으로 하는게 더 좋음
 
-const getStringDate = (targetDate) => {
-  // 날짜 = > YYYY-MM-DD
-  let year = targetDate.getFullYear();
-  let month = targetDate.getMonth() + 1;
-  let day = targetDate.getDate();
-  
-  if (month < 10) {
-    month = `0${month}`;
-  }
-  if ( day < 10 ) {
-    day = `0${day}`;
-  }
-  return `${year}-${month}-${day}`
-  // console.log(year, month, day)
-}
-// 문자열로 변환된 날짜를 구하는 함수
+
 
 const Editor = ({initData, onSubmit }) => {
   
   const [input, setInput] = useState({
-    createDate : new Date(),
+    createdDate : new Date(),
     emotionId : 3,
     content : ""
   }); // 에디터 컴포넌트안에 어떤 값들을 입력했는지 저장하는 스테이트
@@ -59,7 +24,7 @@ const Editor = ({initData, onSubmit }) => {
     if ( initData ) {
       setInput({
         ...initData,
-        createDate : new Date(Number(initData.createDate)),
+        createdDate : new Date(Number(initData.createdDate)),
       })
     }
   }, [initData])
@@ -70,7 +35,7 @@ const Editor = ({initData, onSubmit }) => {
 
     let name = e.target.name;
     let value = e.target.value;
-    if ( name === 'createDate') {
+    if ( name === 'createdDate') {
       value = new Date(value)
     }
 
@@ -90,7 +55,7 @@ const Editor = ({initData, onSubmit }) => {
       <section className="date_section">
         <h4>오늘의 날짜</h4>
         <input
-          name="createDate" onChange={ onChangeInput} value={getStringDate(input.createDate)} type="date" />
+          name="createDate" onChange={ onChangeInput} value={getStringDate(input.createdDate)} type="date" />
       </section>
       <section className="emotion_section">
         <h4>오늘의 감정</h4>

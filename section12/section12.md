@@ -124,3 +124,7 @@ useContext를 통해서 app컴포넌트로부터 공급받은 onCreate함수가 
 
 edit
 ㄴ 기존일기를 수정하는 페이지
+
+Diary
+ㄴ 일기를 조회하는 페이지
+Header / viewer 
