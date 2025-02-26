@@ -128,3 +128,27 @@ edit
 Diary
 ㄴ 일기를 조회하는 페이지
 Header / viewer 
+
+
+최적화가 필요한 때
+ㄴ 비용이 많이 드는 계산
+ㄴ API 호출, 데이터가공 등등
+언제할까?
+React 렌더링 최적화 기능들 > useMemo , useCallback, React.memo
+
+- web Stroage (웹브라우저 내장DB)
+ㄴ 프로그램설치X, 라이브러리X
+ㄴ 자바스크립트 내장함수만으로 접근가능
+값 저장 : localStorage.setItem(key, value)
+값 꺼냄 : localStorage.getITem(key)
+
+1) SessionStorage (앞에 session 붙임)
+ㄴ 브라우저 탭 별로 데이터 보관
+ㄴ 탭 종료되기전에는 데이터 유지 (새로고침)
+ㄴ 탭이 종료되거나 꺼지면 데이터 삭제
+2) LocalStorage (앞에 local 붙임)
+ㄴ 사이트 주소별로 데이터보관 
+ㄴ 직접 삭제하기전까지 보관
+
+- 배포준비하기
+- 배포하기

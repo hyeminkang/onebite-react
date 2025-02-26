@@ -5,53 +5,109 @@ import Diary from './pages/Diary';
 import New from './pages/New';
 import Edit from './pages/Edit';
 import Notfound from './pages/Notfound';
-import { useReducer, useRef, createContext } from 'react';
+import { useReducer, useRef, createContext,useEffect, useState } from 'react';
 
 // 1. "/" : 모든 일기를 조회하는 home 페이지
 // 2. "/new" : 새로운 일기를 작성하는 New페이지
 // 3. "/diary" : 일기를 상세히 조회하는 diary 페이지
 // 4. Edit : 수정
 
-const mokData = [
-  {
-    id: 1,
-    createdDate: new Date("2025-02-12").getTime(),
-    emotionId: 1,
-    content :"1번 일기 내용"
-  },
-  {
-    id: 2,
-    createdDate: new Date("2025-02-11").getTime(),
-    emotionId: 2,
-    content :"2번 일기 내용"
-  },
-  {
-    id: 3,
-    createdDate: new Date("2025-01-30").getTime(),
-    emotionId: 3,
-    content :"3번 일기 내용"
-  },
-]
+// const mokData = [
+//   {
+//     id: 1,
+//     createdDate: new Date("2025-02-12").getTime(),
+//     emotionId: 1,
+//     content :"1번 일기 내용"
+//   },
+//   {
+//     id: 2,
+//     createdDate: new Date("2025-02-11").getTime(),
+//     emotionId: 2,
+//     content :"2번 일기 내용"
+//   },
+//   {
+//     id: 3,
+//     createdDate: new Date("2025-01-30").getTime(),
+//     emotionId: 3,
+//     content :"3번 일기 내용"
+//   },
+// ]
 
 function reducer(state, action) {
+  let nextState; //새로운 state 값의 저장
   switch (action.type) {
+    case 'INIT':
+      return action.data;
     case "CREATE":
-      return [action.data, ...state];
+      {
+        nextState = [action.data, ...state];
+        break
+      }
     case "UPDATE":
-      return state.map((item) => String(item.id) === String(action.data.id) ? action.data : item);
+      {
+        nextState = state.map((item) => String(item.id) === String(action.data.id) ? action.data : item);
+        break;
+        }
     case "DELETE":
-      return state.filter((item) => String(item.id) !== String(action.id));
+      {
+        nextState = state.filter((item) => String(item.id) !== String(action.id))
+        break;
+      }
     default:
       return state;
   }
-}
+  localStorage.setItem('diary', JSON.stringify(nextState))
+  return nextState;
+} // reducer함수를 실행되어서, 추가삭제업데이트할때마다 nextState 라는 변수에 값을 담아서 return함
 
 export const DiaryStateContext = createContext(); // 홈 컴포넌트에서 DiaryStateContext 를 통해서 data 스테이트를 공급받아야함
 export const DiaryDispatchContext = createContext();
 
 function App() {
-  const [data, dispatch] = useReducer(reducer, mokData); // mokData 초기값가져온것
-  const idRef = useRef(3) // ID저장할것 (mokData에 1,2 있어서 3)
+  const [isLoading, setIsLoading] = useState(true);
+  const [data, dispatch] = useReducer(reducer, []); // mokData 초기값가져온것
+  const idRef = useRef(0) // ID저장할것 (mokData에 1,2 있어서 3)
+
+  useEffect(() => {
+    const storedData = localStorage.getItem('diary');
+    if (!storedData) {
+      setIsLoading(false);
+      return;
+    } // 데이터가 undefined라면 return으로 콜백함수종료
+    const parsedData = JSON.parse(storedData);
+    //console.log(parsedData)
+    if (!Array.isArray(parsedData)) {
+      setIsLoading(false);
+      return;
+    } //배열이 아니라면 종료 
+    let maxId = 0;
+    parsedData.forEach((item) => {
+      if (Number(item.id) > maxId) {
+        maxId = Number(item.id)
+      }
+    })
+
+    //    console.log(maxId)
+    idRef.current = maxId + 1; // 아이디값 겹치지않도록
+
+    dispatch({
+      type: "INIT",
+      data: parsedData
+    });
+    setIsLoading(false);
+  }, [])
+  
+  // 임시로 저장하는거보기
+  //localStorage.setItem('test', 'hello') // key값은 원시타입만 가능
+  //localStorage.setItem('person', JSON.stringify({name:'이정환'}))
+
+  // console.log(localStorage.getItem('test'))
+  // console.log(JSON.parse(localStorage.getItem('person')))
+  //JSON.parse (undefined) // 이렇게하면 오류가 발생됨 undefined 값이 아닐경우에만 사용가능
+
+  // localStorage 데이터삭제
+  localStorage.removeItem('test')
+
 
   // 새로운일기 추가
   const onCreate = (createdDate, emotionId, content) => {
@@ -80,6 +136,11 @@ function App() {
       type: "DELETE",
       id,
     })
+  };
+
+  if (isLoading) {
+    return <div>데이터 로딩중입니다...</div>
+
   }
 
   return (
