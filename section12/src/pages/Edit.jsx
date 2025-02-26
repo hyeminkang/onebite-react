@@ -5,11 +5,15 @@ import Editor from "../components/Editor";
 import { useContext, useEffect, useState } from "react";
 import { DiaryDispatchContext, DiaryStateContext } from "../App";
 import useDiary from "../hooks/useDiary";
+import usePageTitle from "../hooks/usePageTitle";
+
 
 const Edit = () => {
   const params = useParams(); // params를 기준으로 id값의 데이터를 다 받아와야함
   const nav = useNavigate();
+  usePageTitle(`${params.id}번 일기수정`);
   const { onDelete, onUpdate } = useContext(DiaryDispatchContext);
+  
 
   const curDiaryItem = useDiary(params.id)
   

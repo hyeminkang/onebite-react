@@ -151,4 +151,9 @@ React 렌더링 최적화 기능들 > useMemo , useCallback, React.memo
 ㄴ 직접 삭제하기전까지 보관
 
 - 배포준비하기
+ㄴ 페이지 타이틀 설정하기 (title)
+ㄴ Favicon 설정하기
+ㄴ 오픈 그래프 태그 설정하기
+ㄴ 프로젝트 빌드
+
 - 배포하기
